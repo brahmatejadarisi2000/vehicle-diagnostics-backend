@@ -6,7 +6,7 @@ const { parseLogFile } = require('../utils/parser');
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
-let logs = []; // In-memory storage
+let logs = [];
 
 router.post('/upload', upload.single('file'), async (req, res) => {
     try {
