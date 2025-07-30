@@ -13,6 +13,8 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         const filePath = req.file.path;
         const fileContent = await fs.readFile(filePath, 'utf-8');
         logs = parseLogFile(fileContent);
+        // Remove the uploaded file from the server after parsing it into memory
+        await fs.unlink(filePath);
         res.json({ message: 'File uploaded and parsed successfully', count: logs.length });
     } catch (err) {
         console.error(err);
