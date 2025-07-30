@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs');
+const fs = require('fs').promises;
 const { parseLogFile } = require('../utils/parser');
 
 const router = express.Router();
@@ -11,7 +11,7 @@ let logs = [];
 router.post('/upload', upload.single('file'), async (req, res) => {
     try {
         const filePath = req.file.path;
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const fileContent = await fs.readFile(filePath, 'utf-8');
         logs = parseLogFile(fileContent);
         res.json({ message: 'File uploaded and parsed successfully', count: logs.length });
     } catch (err) {
